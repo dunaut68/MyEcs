@@ -75,3 +75,6 @@ crashlytics-build.properties
 /[Pp]ackages/
 /[Pp]rojectSettings/
 .vsconfig
+
+* -text
+*.cs text eol=crlf
