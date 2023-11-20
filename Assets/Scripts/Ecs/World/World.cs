@@ -14,6 +14,7 @@ namespace Ecs
             _createdMaxEntity = 0;
 
             _components = new Dictionary<int, Dictionary<Entity, IComponent>>();
+            _singletonComponents = new Dictionary<int, ISingletonComponent>();
 
             _systems = new Dictionary<int, ISystem>();
             _updateOrders = new List<int>();
