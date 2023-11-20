@@ -37,13 +37,5 @@ namespace Ecs
             _systems.Remove(hashCode);
             _updateOrders.Remove(hashCode);
         }
-
-        public void OnUpdate(int deltaTime)
-        {
-            for (int i = 0; i < _updateOrders.Count; ++i)
-            {
-                _systems[_updateOrders[i]].OnUpdate(deltaTime);
-            }
-        }
     }
 }

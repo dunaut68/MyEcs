@@ -2,7 +2,7 @@ using System;
 
 namespace Ecs
 {
-    using Entity = System.UInt32;
+    using Entity = UInt32;
 
     public delegate void Iterate<T>(ref T component) where T : IComponent;
     public delegate void Iterate<T1, T2>(ref T1 component1, ref T2 component2) where T1 : IComponent where T2 : IComponent;
@@ -32,6 +32,7 @@ namespace Ecs
             if (!Children.TryGetValue(key, out Group group))
             {
                 Children.Add(key, group = new All<T>(_world, this));
+                _world.SetTrackedComponentType<T>(group);
             }
 
             return group;
@@ -44,6 +45,8 @@ namespace Ecs
             if (!Children.TryGetValue(key, out Group group))
             {
                 Children.Add(key, group = new All<T1, T2>(_world, this));
+                _world.SetTrackedComponentType<T1>(group);
+                _world.SetTrackedComponentType<T2>(group);
             }
 
             return group;
@@ -56,6 +59,9 @@ namespace Ecs
             if (!Children.TryGetValue(key, out Group group))
             {
                 Children.Add(key, group = new All<T1, T2, T3>(_world, this));
+                _world.SetTrackedComponentType<T1>(group);
+                _world.SetTrackedComponentType<T2>(group);
+                _world.SetTrackedComponentType<T3>(group);
             }
 
             return group;

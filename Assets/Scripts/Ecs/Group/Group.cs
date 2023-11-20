@@ -13,20 +13,24 @@ namespace Ecs
 
     public partial class Group
     {
-        private Group _parent;
-        private Dictionary<int, Group> _children;
-        public Dictionary<int, Group> Children => _children ??= new Dictionary<int, Group>();
-
         protected World _world;
-        private HashSet<Entity> _entities;
+        private readonly HashSet<Entity> _entities;
         public HashSet<Entity> Entities => _entities;
 
+        private Group _parent;
+        public Group Parent => _parent;
+        private Dictionary<int, Group> _children;
+        public Dictionary<int, Group> Children => _children ??= new Dictionary<int, Group>();
+        private int _depth;
+        public int Depth => _depth;
 
         public Group(World world, Group parent = null)
         {
             _world = world;
-            _parent = parent;
             _entities = new HashSet<Entity>();
+
+            _parent = parent;
+            _depth = parent != null ? parent.Depth + 1 : 0;
 
             Filter();
         }
@@ -34,22 +38,12 @@ namespace Ecs
         public void Filter()
         {
             _entities.Clear();
-
             foreach (Entity entity in _parent != null ? _parent.Entities : _world.GetEntities())
             {
                 if (Match(entity))
                 {
                     _entities.Add(entity);
                 }
-            }
-        }
-
-        public void Refilter()
-        {
-            Filter();
-            foreach (Group group in Children.Values)
-            {
-                group.Filter();
             }
         }
 

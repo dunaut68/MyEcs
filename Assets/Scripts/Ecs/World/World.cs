@@ -20,6 +20,20 @@ namespace Ecs
             _updateOrders = new List<int>();
 
             _group = new Group(this);
+            _componentTypeToGroups = new Dictionary<int, HashSet<Group>>();
+            _entityChanged = false;
+            _changedComponentTypes = new HashSet<int>();
+            _waitingUpdatingGroups = new List<Group>();
+        }
+
+        public void OnUpdate(int deltaTime)
+        {
+            RefilterGroups();
+
+            for (int i = 0; i < _updateOrders.Count; ++i)
+            {
+                _systems[_updateOrders[i]].OnUpdate(deltaTime);
+            }
         }
     }
 }

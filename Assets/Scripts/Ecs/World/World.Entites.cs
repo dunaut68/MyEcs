@@ -24,6 +24,7 @@ namespace Ecs
             }
 
             _entities.Add(entity);
+            OnEntityCreated(entity);
             return entity;
         }
 
@@ -34,12 +35,23 @@ namespace Ecs
                 return;
             }
 
+            OnEntityDestroying(entity);
             _entities.Remove(entity);
         }
 
         public ISet<Entity> GetEntities()
         {
             return _entities;
+        }
+
+        private void OnEntityCreated(Entity entity)
+        {
+            _entityChanged = true;
+        }
+
+        private void OnEntityDestroying(Entity entity)
+        {
+            _entityChanged = true;
         }
     }
 }

@@ -105,12 +105,22 @@ namespace Ecs
 
         private void OnComponentAdded<T>(Entity entity, T component) where T : IComponent
         {
-            _group.Refilter();
+            Type componentType = typeof(T);
+            int hashCode = componentType.GetHashCode();
+            if (!_changedComponentTypes.Contains(hashCode))
+            {
+                _changedComponentTypes.Add(hashCode);
+            }
         }
 
         private void OnComponentRemoving<T>(Entity entity, T component) where T : IComponent
         {
-            _group.Refilter();
+            Type componentType = typeof(T);
+            int hashCode = componentType.GetHashCode();
+            if (!_changedComponentTypes.Contains(hashCode))
+            {
+                _changedComponentTypes.Add(hashCode);
+            }
         }
     }
 }
