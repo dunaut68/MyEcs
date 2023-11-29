@@ -28,10 +28,9 @@ namespace Ecs
 
         public void OnUpdate(int deltaTime)
         {
-            RefilterGroups();
-
             for (int i = 0; i < _updateOrders.Count; ++i)
             {
+                RefilterGroups();
                 _systems[_updateOrders[i]].OnUpdate(deltaTime);
             }
         }
